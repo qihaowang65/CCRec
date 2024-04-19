@@ -2,9 +2,10 @@
 This project aims to perform category-level recommendation using a cascading approach
 ## Input Format
 The input dataset should be a pandas dataframe with three columns -- past_topic, future_topic, and past_leaf.
-past_topic - a list object of the indices of past categories ranging from 0 to number of categories
-future_topic - a list object of the indices of future categories ranging from 0 to number of categories
-past_leaf - a list object of multiple lists. i<sup>th</sup> list contains all the item ids from the i<sup>th</sup> category in the past. 
+- past_topic - a list object of the indices of past categories ranging from 0 to number of categories
+- future_topic - a list object of the indices of future categories ranging from 0 to number of categories
+- past_leaf - a list object of multiple lists. i<sup>th</sup> list contains all the item ids from the i<sup>th</sup> category in the past. 
+
 Two examples of datasets, namely RocketRetail and Tmall, are given in the dataset folder.
 ## Requirements
 - Linux

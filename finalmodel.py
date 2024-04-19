@@ -7,14 +7,13 @@ import pandas as pd
 import copy
 import os
 import numpy as np
-from copy import deepcopy
+from copy import copy
 from torch.autograd import Variable
 from torch.nn import functional as F
 from collections import OrderedDict
 from tqdm import tqdm
 
 df = pd.read_pickle('tmall.pickle')
-df.head()
 
 with open('topic_items_to_emb-tmall.pkl','rb') as fp:
     embedding_map = pickle.load(fp)
@@ -25,7 +24,7 @@ with open('training_negative.pkl','rb') as fp:
 x = []
 y = []
 all_zero = [0 for _ in range(256)]
-for i in tqdm(range(int(len(df)*0.1))):
+for i in tqdm(range(int(len(df)*0.15))):
     row = df.iloc[i]
     past_id = row['past_topic']
     gt = row['future_topic']
@@ -104,19 +103,20 @@ class user_preference_estimator(torch.nn.Module):
         out = self.linear_out(out)
         return out
         
+        
+        
 estimator = user_preference_estimator(config)
 estimator.to('cuda:0')
 
 optimizer = torch.optim.Adam(estimator.parameters(), lr = 0.001)
 for _ in range(5):
     for i in tqdm(range(len(x))):
+        optimizer.zero_grad()
         losses_q = []
         y_pred = estimator.forward(x[i:i+1])
         loss_q = F.mse_loss(y_pred, y[i:i+1].view(-1, 1))
         losses_q.append(loss_q)
         losses_q = torch.stack(losses_q).mean(0)
-
-        optimizer.zero_grad()
         with torch.autograd.set_detect_anomaly(True):
             losses_q.clamp(min=1e-6)
             losses_q.backward()

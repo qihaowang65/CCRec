@@ -13,6 +13,7 @@ Two examples of datasets, namely RocketRetail and Tmall, are given in the datase
 - Pytorch 1.12+
 - CUDA 11.8+
 - Pandas 2.2+
+- (Optional) Mamba from https://github.com/alxndrTL/mamba.py
 ## Training
 The notebook and .py files give an example of training and testing on the Tmall dataset. By changing the dataset name and output file names, the result of RocketRetail can also be reproduced.
 First, run `mle.py` to train the MLE model, which is the first module in the paper
@@ -23,6 +24,8 @@ Three files will be generated
 - MLE.pkl: The MLE model parameters after training
 - training_negative.pkl: The negative samples for training
 - testing_negative.pkl: The candidate list for testing
+
+Also, you can run `mle_mamba.py` to train the MLE model using Mamba as sequence encoding. Its performance is similar to transformer-based MLE. You can get the same output as the simplified version.
 
 Next, go to the Notebook folder and run the code in `Item-levelDependentVAE.ipynb` to get the embedding from VAE. One file will be generated, which is `topic_items_to_emb-tmall.pkl`
 
